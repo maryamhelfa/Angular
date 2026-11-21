@@ -1,0 +1,32 @@
+<h2>Ajouter un produit</h2>
+<input
+  type="text"
+  placeholder="Nom du produit"
+  [value]="newName()"
+  (input)="newName.set($any($event.target).value)"
+/>
+<button (click)="addProduct()">Ajouter</button>
+
+<h2>Produits</h2>
+
+@for (p of products(); track p.id) {
+  <div>
+    {{ p.name }} - {{ p.price }} € - Stock : {{ p.stock }}
+
+    @if (p.stock > 0) {
+      <button (click)="addToCart(p)">Ajouter au panier</button>
+    } @else {
+      <span>Rupture de stock</span>
+    }
+  </div>
+}
+
+<h2>Articles disponibles : {{ availableProducts().length }}</h2>
+
+@if (isStockEmpty()) {
+  <p>Le stock est vide.</p>
+}
+
+<h2>Panier</h2>
+<p>{{ cartCount() }} article(s) - Total : {{ cartTotal() }} €</p>
+<button (click)="clearCart()">Vider le panier</button>
